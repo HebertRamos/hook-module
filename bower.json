@@ -1,0 +1,11 @@
+{
+  "name": "hooks-service",
+  "version": "1.0.0",
+  "description": "Module hooks provider to use in a application. Inspired in wordpress hooks.",
+  "dependencies": {
+    "angular": "~1.3.x",
+    "jquery": "~1.9.1",
+    "requirejs": "~2.1.18",
+    "jasmine-core": "jasmine#~2.3.4"
+  }
+}
