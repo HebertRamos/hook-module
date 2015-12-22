@@ -1,4 +1,4 @@
-define(['jquery', './../../hook-module'], function (jquery, hookModule_) {
+define(['jquery', 'base/hook-module'], function (jquery, hookModule_) {
 
     describe('hookModuleSpec', function () {
 
@@ -17,6 +17,7 @@ define(['jquery', './../../hook-module'], function (jquery, hookModule_) {
                 var resp = hookModule_.add_action(hook_name, my_hook);
 
                 expect(resp).toBeTruthy();
+
                 expect(hookModule_.hooks_actions[hook_name][0]).toEqual(my_hook);
             });
 

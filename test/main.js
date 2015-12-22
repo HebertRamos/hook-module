@@ -1,6 +1,27 @@
 /**
  * Created by hramos on 14/12/2015.
  */
+
+loadUnitTest = function () {
+    var allTestFiles = [];
+    if (window.__karma__) {
+        var TEST_REGEXP = /Spec\.js$/;
+
+        var pathToModule = function (path) {
+            return path.replace(/^\/base\/app\//, '').replace(/\.js$/, '');
+        };
+
+        Object.keys(window.__karma__.files).forEach(function (file) {
+
+            if (TEST_REGEXP.test(file)) {
+                // Normalize paths to RequireJS module names.
+                allTestFiles.push(file);
+            }
+        });
+    }
+    return allTestFiles;
+};
+
 require.config({
 
     name: 'main',
@@ -8,22 +29,14 @@ require.config({
     waitSeconds: 20,
 
     paths: {
-        'jasmine'       : './../bower_components/jasmine-core/lib/jasmine-core/jasmine'         ,
-        'jasmine-html'  : './../bower_components/jasmine-core/lib/jasmine-core/jasmine-html'    ,
-        'jasmine-boot'  : './../bower_components/jasmine-core/lib/jasmine-core/boot'            ,
 
-        'jquery'        : './../bower_components/jquery/jquery'                                 ,
-        'angular'       : './../bower_components/angular/angular'
+        'jquery'        : 'base/bower_components/jquery/jquery'                                 ,
+        'angular'       : 'base/bower_components/angular/angular'
+
     },
 
     shim: {
-        'jasmine-html': {
-            deps: ['jasmine'],
-            exports: 'jasmine'
-        },
-        'jasmine-boot': {
-            deps: ['jasmine', 'jasmine-html']
-        },
+
         jquery: {
             exports: '$'
         },
@@ -31,16 +44,15 @@ require.config({
             deps: ['jquery'],
             exports: 'angular'
         }
-    }
+    },
+
+    priority: [
+        'jquery',
+        'angular'
+    ],
+    deps: loadUnitTest(),
+    callback: window.__karma__.start,
+    baseUrl: ''
 });
 
-define([
-    'jasmine-boot'
-], function(){
-   
-    var specsToRun = ['./spec/hookModuleSpec'];
 
-    require(specsToRun, function () {
-        window.onload();
-    })
-});
